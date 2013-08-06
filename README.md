@@ -15,3 +15,10 @@ Usage:
 
     piphub numpy cython pydata/pandas
 
+All it does is expand the command, so:
+
+    piphub numpy
+    
+is really just
+
+    pip install --src ~/dev/py -e git+https://github.com/numpy/numpy#egg=numpy
