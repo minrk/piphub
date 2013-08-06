@@ -1,6 +1,6 @@
-# piphub: pip for GitHub
+# piphub: pip wrapper for GitHub
 
-piphub is a trivial wrapper for installing Python projects from GitHub with pip.
+piphub is a trivial wrapper for doing developer installs of Python projects from GitHub with pip.
 
 To install:
 
