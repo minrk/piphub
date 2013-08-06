@@ -47,7 +47,7 @@ def piphub(org, repo, name):
     if not os.path.exists(SRC):
         os.makedirs(SRC)
     dest = os.path.join(SRC, repo)
-    if os.path.exists(dest + "foo"):
+    if os.path.exists(dest):
         update(dest)
         return
     proto = PROTOCOL
