@@ -4,11 +4,19 @@ piphub is a trivial wrapper for doing developer installs of Python projects from
 
 To install:
 
-    ln -s "$(PWD)/piphub" ~/bin/piphub
+    pip install piphub
+
+or:
+
+    ln -s "$(PWD)/piphub.py" ~/bin/piphub
+
+or:
+
+    curl -L https://raw.github.com/minrk/piphub/master/piphub.py > ~/bin/piphub
 
 or `/usr/local/bin` or wherever you like.
 
-Go ahead and edit SRC and INSTALL in the piphub script if you don't like my defaults
+Run `piphub --config` and edit `~/.piphub` if you don't like my defaults
 (`--user install`, repos in ~/dev/py)
 
 Usage:
