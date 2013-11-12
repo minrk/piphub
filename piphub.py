@@ -85,6 +85,7 @@ def piphub(org, repo, name, cfg):
 
 def update(path, install):
     """update an existing repo"""
+    print("upgrading %s" % path)
     with cd(path):
         call(['git', 'pull'])
         call(install + ['-e', '.'])
