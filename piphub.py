@@ -21,6 +21,8 @@ import sys
 from subprocess import check_call
 from contextlib import contextmanager
 
+pjoin = os.path.join
+
 CONFIG_FILE = os.path.expanduser("~/.piphub")
 # the base install command.
 INSTALL = ['pip', 'install']
@@ -30,7 +32,7 @@ in_env = 'VIRTUAL_ENV' in os.environ
 
 default_config = {
     # where packages will be installed
-    'src' : os.path.expanduser(os.path.join('~', 'dev', 'py')),
+    'src' : os.path.expanduser(pjoin('~', 'dev', 'py')),
     'pip' : 'pip',
     # can be https, git, http
     'protocol' : 'https',
@@ -78,7 +80,7 @@ def piphub(org, repo, name, cfg):
         return
     proto = cfg['protocol']
     url = "git+{proto}://github.com/{org}/{repo}.git#egg={name}".format(**locals())
-    cmd = install + ['--src', SRC, '-e' , url]
+    cmd = install + ['--src', src, '-e' , url]
     call(cmd)
 
 def update(path, install):
@@ -93,6 +95,18 @@ def write_config():
     with open(CONFIG_FILE, 'w') as f:
         json.dump(cfg, f, indent=1)
     print("wrote default config to: %s" % CONFIG_FILE)
+
+def list_packages(src, status=False):
+    print("listing packages in %s" % src)
+    for pkg in os.listdir(src):
+        pkgdir = pjoin(src, pkg)
+        if os.path.isdir(pjoin(pkgdir, '.git')) \
+            and os.path.isfile(pjoin(pkgdir, 'setup.py')):
+            print(pkg)
+            if status:
+                with cd(pkgdir):
+                    check_call(['git', 'log', '-1', '--format=  %h [%ar] %s'])
+    
 
 def main():
     parser = argparse.ArgumentParser(
@@ -125,17 +139,31 @@ def main():
     parser.add_argument("--config", action='store_true', dest='write_config',
         help="write the default config file to ~/.piphub"
     )
+    parser.add_argument("--list", action='store_true',
+        help="list piphub packages",
+    )
+    parser.add_argument("--status", action='store_true',
+        help="list piphub packages and show their status",
+    )
     
     args = parser.parse_args()
     if args.write_config:
         write_config()
         sys.exit(0)
-        
+    
     if args.src:
         cfg['src'] = args.src
     
+    if args.list:
+        list_packages(cfg['src'], False)
+        sys.exit(0)
+    
+    if args.status:
+        list_packages(cfg['src'], True)
+        sys.exit(0)
+    
     if not args.packages:
-        print (__doc__)
+        parser.print_help()
         sys.exit(1)
     
     for pkg in args.packages:
