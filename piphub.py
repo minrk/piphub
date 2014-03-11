@@ -98,7 +98,7 @@ def write_config():
     print("wrote default config to: %s" % CONFIG_FILE)
 
 def list_packages(src, status=False):
-    print("listing packages in %s" % src)
+    # print("listing packages in %s" % src)
     for pkg in os.listdir(src):
         pkgdir = pjoin(src, pkg)
         if os.path.isdir(pjoin(pkgdir, '.git')) \
@@ -144,7 +144,7 @@ def main():
         help="list piphub packages",
     )
     parser.add_argument("--status", action='store_true',
-        help="list piphub packages and show their status",
+        help="list piphub packages and show their git status",
     )
     
     args = parser.parse_args()
