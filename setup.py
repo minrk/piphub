@@ -12,7 +12,7 @@ from distutils.core import setup
 
 setup_args = dict(
     name = "piphub",
-    version = '0.0.2',
+    version = '0.0.3',
     py_modules = ["piphub"],
     scripts = ["piphub"],
     author = "Min Ragan-Kelley",
