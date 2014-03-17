@@ -58,6 +58,9 @@ def load_config():
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE, 'r') as f:
             cfg.update(json.load(f))
+    if in_env:
+        # never do --user in an env
+        cfg['user'] = False
     return cfg
 
 def call(cmd):
